@@ -1,0 +1,49 @@
+---
+import BoardArt from './BoardArt.astro';
+---
+
+<section id="nosotros" class="relative py-24 md:py-32">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="grid md:grid-cols-5 gap-12 md:gap-16 items-center">
+      <div class="md:col-span-3 reveal">
+        <p class="text-xs uppercase tracking-widest2 text-gold mb-4">Nuestra historia</p>
+        <h2 class="font-display text-4xl md:text-5xl font-medium text-cream leading-tight">
+          Todo empezó con la idea de <span class="italic text-gold-light">compartir</span>
+        </h2>
+        <div class="mt-6 space-y-4 text-muted leading-relaxed max-w-xl">
+          <p>
+            En <span class="text-cream">Las Tablas de Titto</span> creemos que las mejores
+            conversaciones suceden alrededor de una buena tabla. Por eso seleccionamos cada
+            queso, cada embutido y cada detalle con el cuidado de quien recibe en casa.
+          </p>
+          <p>
+            Cada tabla se monta a mano el mismo día, combinando sabores, texturas y color para
+            que además de deliciosa, sea el centro de tu mesa.
+          </p>
+        </div>
+
+        <dl class="mt-10 grid grid-cols-3 gap-6 max-w-md">
+          <div>
+            <dt class="font-display text-4xl text-gold-light">100%</dt>
+            <dd class="text-xs uppercase tracking-wider text-muted mt-1">Artesanal</dd>
+          </div>
+          <div>
+            <dt class="font-display text-4xl text-gold-light">+30</dt>
+            <dd class="text-xs uppercase tracking-wider text-muted mt-1">Ingredientes</dd>
+          </div>
+          <div>
+            <dt class="font-display text-4xl text-gold-light">24h</dt>
+            <dd class="text-xs uppercase tracking-wider text-muted mt-1">De anticipación</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="md:col-span-2 reveal">
+        <div class="relative">
+          <div class="absolute -inset-4 rounded-3xl bg-wine/10 blur-2xl"></div>
+          <BoardArt class="relative w-full rounded-2xl ring-1 ring-gold/15 shadow-card" seed={7} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

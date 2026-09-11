@@ -1,0 +1,75 @@
+---
+import { tablas, waLink } from '../config';
+---
+
+<section id="tablas" class="relative py-24 md:py-32">
+  <!-- separador dorado -->
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="rule-gold mb-20"></div>
+
+    <div class="text-center max-w-2xl mx-auto reveal">
+      <p class="text-xs uppercase tracking-widest2 text-gold mb-4">Nuestro menú</p>
+      <h2 class="font-display text-4xl md:text-5xl font-medium text-cream leading-tight">
+        Elige tu tabla
+      </h2>
+      <p class="mt-4 text-muted">
+        Cada tabla se prepara bajo pedido. ¿Buscas algo a la medida? Con gusto la personalizamos.
+      </p>
+    </div>
+
+    <div class="mt-16 grid gap-6 md:grid-cols-3">
+      {
+        tablas.map((tabla, i) => (
+          <article
+            class:list={[
+              'reveal group relative flex flex-col rounded-2xl p-7 transition-all duration-500 hover:-translate-y-1',
+              tabla.destacada
+                ? 'bg-gradient-to-b from-wine/25 to-surface ring-1 ring-gold/40 shadow-glow'
+                : 'bg-surface/60 ring-1 ring-cream/10 hover:ring-gold/30',
+            ]}
+            style={`transition-delay:${i * 90}ms`}
+          >
+            {tabla.destacada && (
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-widest text-charcoal">
+                La favorita
+              </span>
+            )}
+
+            <h3 class="font-display text-2xl md:text-3xl font-semibold text-cream">
+              {tabla.nombre}
+            </h3>
+            <p class="mt-1 text-xs uppercase tracking-wider text-gold/80">{tabla.porciones}</p>
+
+            <p class="mt-4 text-sm text-muted leading-relaxed flex-1">{tabla.descripcion}</p>
+
+            <div class="mt-6 flex items-end justify-between">
+              <span class="font-display text-4xl text-gold-light">{tabla.precio}</span>
+              <span class="text-[0.65rem] uppercase tracking-wider text-muted">MXN</span>
+            </div>
+
+            <a
+              href={waLink(`Hola, me interesa la ${tabla.nombre} (${tabla.porciones}). ¿Me ayudas con el pedido?`)}
+              target="_blank"
+              rel="noopener"
+              class:list={[
+                'mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition-colors',
+                tabla.destacada
+                  ? 'bg-gold text-charcoal hover:bg-gold-light'
+                  : 'border border-gold/40 text-gold-light hover:bg-gold hover:text-charcoal',
+              ]}
+            >
+              Pedir esta tabla
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-center text-sm text-muted reveal">
+      Los precios son de referencia y pueden variar según ingredientes de temporada.
+    </p>
+  </div>
+</section>

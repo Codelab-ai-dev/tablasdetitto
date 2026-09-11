@@ -1,0 +1,55 @@
+---
+import { waLink } from '../config';
+
+const eventos = [
+  { icon: '💍', titulo: 'Bodas', texto: 'Mesas de grazing y tablas de autor para tu gran día.' },
+  { icon: '🥂', titulo: 'Corporativo', texto: 'Impresiona en juntas, brindis y celebraciones de oficina.' },
+  { icon: '🎉', titulo: 'Fiestas', texto: 'Cumpleaños, reuniones y todo pretexto para compartir.' },
+];
+---
+
+<section id="eventos" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute top-1/2 left-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-wine/15 blur-[130px]"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-5xl px-5 sm:px-8 text-center">
+    <div class="reveal">
+      <p class="text-xs uppercase tracking-widest2 text-gold mb-4">Eventos & catering</p>
+      <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-medium text-cream leading-tight max-w-3xl mx-auto">
+        Convierte tu evento en una experiencia
+      </h2>
+      <p class="mt-5 text-muted max-w-xl mx-auto leading-relaxed">
+        Diseñamos mesas de charcutería a la medida de tu celebración. Cuéntanos tu fecha, número de
+        invitados y estilo, y armamos una propuesta para ti.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-5 sm:grid-cols-3">
+      {
+        eventos.map((e, i) => (
+          <div
+            class="reveal rounded-2xl bg-surface/50 ring-1 ring-cream/10 p-8 hover:ring-gold/30 transition-colors"
+            style={`transition-delay:${i * 90}ms`}
+          >
+            <div class="text-3xl">{e.icon}</div>
+            <h3 class="mt-4 font-display text-2xl text-cream">{e.titulo}</h3>
+            <p class="mt-2 text-sm text-muted leading-relaxed">{e.texto}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <a
+      href={waLink('Hola, quiero cotizar una mesa de charcutería para un evento. Te comparto la fecha y número de invitados:')}
+      target="_blank"
+      rel="noopener"
+      class="reveal mt-12 inline-flex items-center justify-center gap-2 rounded-full bg-gold px-8 py-4 font-medium text-charcoal shadow-glow hover:bg-gold-light transition-all hover:-translate-y-0.5"
+    >
+      Cotizar mi evento
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </div>
+</section>

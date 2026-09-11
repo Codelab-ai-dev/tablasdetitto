@@ -1,0 +1,50 @@
+---
+import { galeria } from '../config';
+import BoardArt from './BoardArt.astro';
+---
+
+<section id="galeria" class="relative py-24 md:py-32">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="rule-gold mb-20"></div>
+
+    <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+      <div>
+        <p class="text-xs uppercase tracking-widest2 text-gold mb-4">Galería</p>
+        <h2 class="font-display text-4xl md:text-5xl font-medium text-cream leading-tight">
+          Un vistazo a nuestras mesas
+        </h2>
+      </div>
+      <p class="text-sm text-muted max-w-xs sm:text-right">
+        Cada montaje es único. Estos son algunos de nuestros favoritos.
+      </p>
+    </div>
+
+    <!-- Grid mobile-first: 1 col → 2 → 3 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {
+        galeria.map((caption, i) => (
+          <figure
+            class:list={[
+              'reveal group relative overflow-hidden rounded-2xl ring-1 ring-cream/10 bg-surface',
+              i === 0 ? 'sm:col-span-2 sm:row-span-2' : '',
+            ]}
+            style={`transition-delay:${i * 70}ms`}
+          >
+            <BoardArt
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              seed={i + 1}
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/10 to-transparent"></div>
+            <figcaption class="absolute bottom-0 inset-x-0 p-5">
+              <span class="text-sm text-cream/90">{caption}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <p class="reveal mt-6 text-center text-xs text-muted">
+      Imágenes ilustrativas — reemplázalas por tus fotos reales en <code class="text-gold/70">public/images</code>.
+    </p>
+  </div>
+</section>

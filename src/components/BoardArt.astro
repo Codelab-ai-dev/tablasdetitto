@@ -1,0 +1,75 @@
+---
+// Placeholder ilustrado de una tabla de charcutería (SVG).
+// Reemplázalo por una <img> con foto real cuando la tengas.
+interface Props {
+  class?: string;
+  seed?: number; // varía ligeramente la composición
+}
+const { class: className = '', seed = 0 } = Astro.props;
+const rot = (seed * 37) % 20 - 10;
+---
+
+<svg
+  viewBox="0 0 400 400"
+  class={className}
+  role="img"
+  aria-label="Ilustración de una tabla de charcutería"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <radialGradient id={`bg-${seed}`} cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#2a1f1b" />
+      <stop offset="100%" stop-color="#120d0c" />
+    </radialGradient>
+    <radialGradient id={`board-${seed}`} cx="42%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#5a3b25" />
+      <stop offset="70%" stop-color="#3f2817" />
+      <stop offset="100%" stop-color="#2c1a0f" />
+    </radialGradient>
+    <linearGradient id={`cheese-${seed}`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4dfa0" />
+      <stop offset="100%" stop-color="#e0b85f" />
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="400" fill={`url(#bg-${seed})`} />
+
+  <g transform={`rotate(${rot} 200 205)`}>
+    <!-- tabla de madera -->
+    <ellipse cx="200" cy="210" rx="168" ry="150" fill="#160f0b" opacity="0.6" />
+    <circle cx="200" cy="200" r="160" fill={`url(#board-${seed})`} />
+    <circle cx="200" cy="200" r="160" fill="none" stroke="#c9a24b" stroke-opacity="0.25" stroke-width="2" />
+    <!-- vetas de madera -->
+    <path d="M70 160 Q200 145 330 175" stroke="#2c1a0f" stroke-width="2" fill="none" opacity="0.5" />
+    <path d="M64 230 Q200 250 336 220" stroke="#2c1a0f" stroke-width="2" fill="none" opacity="0.5" />
+
+    <!-- cuñas de queso -->
+    <path d="M120 120 L190 150 L140 195 Z" fill={`url(#cheese-${seed})`} stroke="#c99b3a" stroke-width="1.5" />
+    <circle cx="150" cy="150" r="4" fill="#c99b3a" opacity="0.5" />
+    <circle cx="165" cy="165" r="3" fill="#c99b3a" opacity="0.5" />
+    <rect x="235" y="130" width="55" height="42" rx="6" transform="rotate(14 262 151)" fill="#f0e4c4" stroke="#d8c68f" stroke-width="1.5" />
+
+    <!-- salami / embutidos -->
+    <circle cx="255" cy="235" r="21" fill="#8f3b3f" />
+    <circle cx="255" cy="235" r="21" fill="none" stroke="#e6d9b8" stroke-width="3" />
+    <circle cx="250" cy="230" r="3" fill="#c76d6d" /><circle cx="262" cy="238" r="2.5" fill="#c76d6d" /><circle cx="256" cy="244" r="2" fill="#c76d6d" />
+    <circle cx="290" cy="262" r="18" fill="#7b2c3a" />
+    <circle cx="290" cy="262" r="18" fill="none" stroke="#e6d9b8" stroke-width="3" />
+    <circle cx="223" cy="262" r="19" fill="#9c4a44" /><circle cx="223" cy="262" r="19" fill="none" stroke="#e6d9b8" stroke-width="3" />
+
+    <!-- jamón en pliegues -->
+    <path d="M120 235 q18 -14 36 0 q18 14 36 0 q18 -14 36 0" fill="none" stroke="#c56f70" stroke-width="12" stroke-linecap="round" opacity="0.9" />
+    <path d="M118 258 q18 -12 36 0 q18 12 36 0" fill="none" stroke="#d98a8a" stroke-width="10" stroke-linecap="round" opacity="0.85" />
+
+    <!-- uvas -->
+    <g fill="#4a2f52">
+      <circle cx="150" cy="285" r="9" /><circle cx="165" cy="292" r="9" /><circle cx="158" cy="302" r="9" />
+      <circle cx="143" cy="298" r="9" /><circle cx="172" cy="305" r="9" /><circle cx="160" cy="316" r="9" />
+    </g>
+    <!-- frutos secos -->
+    <circle cx="300" cy="180" r="6" fill="#a9803e" /><circle cx="312" cy="192" r="5" fill="#8f6a30" /><circle cx="292" cy="195" r="5" fill="#a9803e" />
+    <!-- ramita de romero -->
+    <path d="M110 300 q30 -6 60 -2" stroke="#5c6b3a" stroke-width="2.5" fill="none" />
+    <g stroke="#6f7d43" stroke-width="2"><path d="M125 300 l-5 -8"/><path d="M140 300 l-4 -9"/><path d="M155 300 l-3 -8"/></g>
+  </g>
+</svg>
