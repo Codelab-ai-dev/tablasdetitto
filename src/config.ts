@@ -8,7 +8,7 @@ export const site = {
   name: 'Las Tablas de Titto',
   tagline: 'Charcutería artesanal para tus mejores momentos',
   // Zona de entrega / servicio
-  zona: 'Ciudad de México y área metropolitana',
+  zona: 'Guadalajara y Zona Metropolitana, Jalisco',
 };
 
 export const contacto = {
