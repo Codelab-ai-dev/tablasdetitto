@@ -12,10 +12,10 @@ export const site = {
 };
 
 export const contacto = {
-  // ⚠️ PLACEHOLDER — reemplaza con tu número real (formato internacional, sin +, espacios ni guiones)
-  whatsapp: '5215500000000',
-  instagram: 'lastablasdetitto',
-  instagramUrl: 'https://instagram.com/lastablasdetitto',
+  // Formato internacional, sin +, espacios ni guiones. 52 = México.
+  whatsapp: '523314573719',
+  instagram: 'LasTablasdeTitto',
+  instagramUrl: 'https://instagram.com/LasTablasdeTitto',
   email: 'hola@lastablasdetitto.com',
 };
 
