@@ -35,9 +35,14 @@ import { site, contacto, waLink } from '../config';
 
     <!-- info -->
     <div class="grid gap-10 sm:grid-cols-3 text-center sm:text-left">
-      <div>
-        <h3 class="font-display text-2xl text-cream">{site.name}</h3>
-        <p class="mt-2 text-xs uppercase tracking-widest2 text-gold/80">Charcutería artesanal</p>
+      <div class="flex flex-col items-center sm:items-start">
+        <img
+          src="/logo.png"
+          alt="Las Tablas de Titto"
+          width="112"
+          height="112"
+          class="h-28 w-28 rounded-full object-contain bg-[#fbf6f0] p-1 ring-1 ring-gold/20 shadow-card"
+        />
         <p class="mt-4 text-sm text-muted leading-relaxed">{site.tagline}.</p>
       </div>
 

@@ -19,15 +19,24 @@ const nav = [
       class="flex items-center justify-between py-4 md:py-5 border-b border-transparent transition-colors duration-500"
       data-header-inner
     >
-      <!-- Logo. Reemplaza el texto por tu <img src="/logo.svg" ...> cuando lo tengas -->
-      <a href="#top" class="flex flex-col leading-none group">
-        <span
-          class="font-display text-xl md:text-2xl font-semibold tracking-wide text-cream group-hover:text-gold-light transition-colors"
-          >Las Tablas de Titto</span
-        >
-        <span class="text-[0.6rem] md:text-[0.65rem] uppercase tracking-widest2 text-gold/80"
-          >Charcutería artesanal</span
-        >
+      <!-- Logo -->
+      <a href="#top" class="flex items-center gap-3 group">
+        <img
+          src="/logo.png"
+          alt="Las Tablas de Titto"
+          width="48"
+          height="48"
+          class="h-11 w-11 md:h-12 md:w-12 rounded-full object-contain bg-[#fbf6f0] p-0.5 ring-1 ring-gold/30 shadow-md transition-transform group-hover:scale-105"
+        />
+        <span class="flex flex-col leading-none">
+          <span
+            class="font-display text-lg md:text-xl font-semibold tracking-wide text-cream group-hover:text-gold-light transition-colors"
+            >Las Tablas de Titto</span
+          >
+          <span class="mt-1 text-[0.55rem] md:text-[0.62rem] uppercase tracking-widest2 text-gold/80"
+            >Charcutería · Vino · Experiencias</span
+          >
+        </span>
       </a>
 
       <nav class="hidden md:flex items-center gap-9">
