@@ -1,5 +1,4 @@
 ---
-import BoardArt from './BoardArt.astro';
 ---
 
 <section id="nosotros" class="relative py-24 md:py-32">
@@ -41,7 +40,15 @@ import BoardArt from './BoardArt.astro';
       <div class="md:col-span-2 reveal">
         <div class="relative">
           <div class="absolute -inset-4 rounded-3xl bg-wine/10 blur-2xl"></div>
-          <BoardArt class="relative w-full rounded-2xl ring-1 ring-gold/15 shadow-card" seed={7} />
+          <img
+            src="/images/tabla-3.jpg"
+            alt="Tabla de charcutería para maridar con vino"
+            loading="lazy"
+            decoding="async"
+            width="625"
+            height="417"
+            class="relative w-full rounded-2xl ring-1 ring-gold/15 shadow-card object-cover"
+          />
         </div>
       </div>
     </div>

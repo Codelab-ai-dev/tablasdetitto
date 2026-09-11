@@ -1,6 +1,5 @@
 ---
 import { site, waLink } from '../config';
-import BoardArt from './BoardArt.astro';
 ---
 
 <section id="top" class="relative min-h-[100svh] flex items-center overflow-hidden pt-24 pb-16">
@@ -79,9 +78,16 @@ import BoardArt from './BoardArt.astro';
 
       <!-- Visual -->
       <div class="order-1 md:order-2 relative animate-fade-up" style="animation-delay:.25s">
-        <div class="relative mx-auto max-w-sm md:max-w-none">
-          <div class="absolute inset-0 rounded-full bg-gold/20 blur-3xl scale-90"></div>
-          <BoardArt class="relative w-full rounded-3xl shadow-card ring-1 ring-gold/20" seed={3} />
+        <div class="relative mx-auto max-w-md md:max-w-none">
+          <div class="absolute -inset-2 rounded-[2rem] bg-gold/20 blur-3xl"></div>
+          <img
+            src="/images/tabla-1.jpg"
+            alt="Tabla de charcutería artesanal de Las Tablas de Titto"
+            width="631"
+            height="416"
+            fetchpriority="high"
+            class="relative w-full rounded-3xl shadow-card ring-1 ring-gold/20 object-cover"
+          />
         </div>
       </div>
     </div>

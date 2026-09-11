@@ -52,12 +52,9 @@ export const tablas = [
   },
 ];
 
-// Galería — reemplaza estas etiquetas cuando agregues fotos reales en /public/images
+// Galería — fotos reales en /public/images
 export const galeria = [
-  'Tabla de quesos madurados',
-  'Embutidos ibéricos',
-  'Mesa de grazing para evento',
-  'Detalle de mieles y frutos',
-  'Tabla individual',
-  'Montaje para boda',
+  { src: '/images/tabla-1.jpg', caption: 'Tabla premium con quesos y embutidos' },
+  { src: '/images/tabla-2.jpg', caption: 'Selección de embutidos y encurtidos' },
+  { src: '/images/tabla-3.jpg', caption: 'Tabla para maridar con vino' },
 ];

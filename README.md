@@ -30,17 +30,14 @@ Todo el contenido editable vive en **`src/config.ts`**:
 
 > Los datos de contacto son **placeholders**. Reemplázalos por los reales antes de publicar.
 
-## 🖼️ Reemplazar imágenes por fotos reales
+## 🖼️ Imágenes
 
-Ahora las tablas se muestran con una **ilustración SVG** (`src/components/BoardArt.astro`) para que no haya imágenes rotas.
+Las fotos reales viven en `public/images/` (`tabla-1.jpg`, `tabla-2.jpg`, `tabla-3.jpg`).
 
-Cuando tengas fotos:
+- **Hero** usa `tabla-1.jpg`, **Nosotros** usa `tabla-3.jpg`.
+- La **galería** se controla desde `galeria` en `src/config.ts` (cada entrada tiene `src` y `caption`).
 
-1. Ponlas en `public/images/` (p. ej. `tabla-1.jpg`).
-2. En `Hero.astro`, `Nosotros.astro` y `Galeria.astro`, cambia `<BoardArt ... />` por:
-   ```html
-   <img src="/images/tabla-1.jpg" alt="Descripción" class="w-full h-full object-cover rounded-2xl" />
-   ```
+Para cambiar una foto, reemplaza el archivo en `public/images/` conservando el nombre, o edita las rutas en `config.ts` / los componentes.
 
 ## 🎨 Logo
 

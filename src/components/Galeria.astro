@@ -1,6 +1,5 @@
 ---
 import { galeria } from '../config';
-import BoardArt from './BoardArt.astro';
 ---
 
 <section id="galeria" class="relative py-24 md:py-32">
@@ -20,9 +19,9 @@ import BoardArt from './BoardArt.astro';
     </div>
 
     <!-- Grid mobile-first: 1 col → 2 → 3 -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[240px] sm:auto-rows-[280px]">
       {
-        galeria.map((caption, i) => (
+        galeria.map((item, i) => (
           <figure
             class:list={[
               'reveal group relative overflow-hidden rounded-2xl ring-1 ring-cream/10 bg-surface',
@@ -30,21 +29,20 @@ import BoardArt from './BoardArt.astro';
             ]}
             style={`transition-delay:${i * 70}ms`}
           >
-            <BoardArt
+            <img
+              src={item.src}
+              alt={item.caption}
+              loading="lazy"
+              decoding="async"
               class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              seed={i + 1}
             />
             <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/10 to-transparent"></div>
             <figcaption class="absolute bottom-0 inset-x-0 p-5">
-              <span class="text-sm text-cream/90">{caption}</span>
+              <span class="text-sm text-cream/90">{item.caption}</span>
             </figcaption>
           </figure>
         ))
       }
     </div>
-
-    <p class="reveal mt-6 text-center text-xs text-muted">
-      Imágenes ilustrativas — reemplázalas por tus fotos reales en <code class="text-gold/70">public/images</code>.
-    </p>
   </div>
 </section>
