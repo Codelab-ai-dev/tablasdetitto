@@ -1,0 +1,105 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getGaleria, getSetting } from '../../lib/content';
+
+const galeria = getGaleria();
+const heroImg = getSetting('hero_image');
+const nosotrosImg = getSetting('nosotros_image');
+
+// Opciones para elegir imagen de sección: fotos de galería + valores actuales.
+const opciones = Array.from(new Set([...galeria.map((g) => g.src), heroImg, nosotrosImg])).filter(Boolean);
+---
+
+<AdminLayout title="Galería" active="galeria">
+  <h1 class="font-display text-4xl text-cream">Galería e imágenes</h1>
+
+  <!-- Imágenes de sección (hero / nosotros) -->
+  <section class="mt-8 grid gap-4 sm:grid-cols-2">
+    {
+      [
+        { key: 'hero', label: 'Foto principal (hero)', current: heroImg },
+        { key: 'nosotros', label: 'Foto de “Nosotros”', current: nosotrosImg },
+      ].map((s) => (
+        <form
+          method="POST"
+          action="/api/admin/galeria"
+          enctype="multipart/form-data"
+          class="rounded-2xl bg-surface/60 ring-1 ring-cream/10 p-5"
+        >
+          <input type="hidden" name="_action" value="section" />
+          <input type="hidden" name="which" value={s.key} />
+          <p class="label">{s.label}</p>
+          <img src={s.current} alt="" class="mt-1 mb-3 h-40 w-full rounded-lg object-cover ring-1 ring-cream/10" />
+          <label class="label">Elegir de la galería</label>
+          <select class="field" name="src">
+            <option value="">— Mantener actual —</option>
+            {opciones.map((o) => (
+              <option value={o} selected={o === s.current}>
+                {o}
+              </option>
+            ))}
+          </select>
+          <label class="label mt-3">…o subir una nueva</label>
+          <input class="field" type="file" name="file" accept="image/jpeg,image/png,image/webp" />
+          <button class="btn-gold mt-4" type="submit">Guardar</button>
+        </form>
+      ))
+    }
+  </section>
+
+  <!-- Subir nueva foto a la galería -->
+  <section class="mt-10 rounded-2xl border border-dashed border-gold/30 p-5">
+    <h2 class="font-display text-2xl text-gold-light">Subir foto a la galería</h2>
+    <form method="POST" action="/api/admin/galeria" enctype="multipart/form-data" class="mt-4 grid gap-4 sm:grid-cols-[1fr_2fr_auto] sm:items-end">
+      <input type="hidden" name="_action" value="upload" />
+      <div>
+        <label class="label">Imagen (JPG/PNG/WebP, máx 5 MB)</label>
+        <input class="field" type="file" name="file" accept="image/jpeg,image/png,image/webp" required />
+      </div>
+      <div>
+        <label class="label">Descripción</label>
+        <input class="field" name="caption" placeholder="Tabla premium con quesos…" />
+      </div>
+      <button class="btn-gold" type="submit">Subir</button>
+    </form>
+  </section>
+
+  <!-- Galería actual -->
+  <section class="mt-10">
+    <h2 class="font-display text-2xl text-cream mb-4">Fotos actuales ({galeria.length})</h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        galeria.map((g) => (
+          <div class="rounded-2xl bg-surface/60 ring-1 ring-cream/10 overflow-hidden">
+            <img src={g.src} alt={g.caption} class="h-44 w-full object-cover" />
+            <form method="POST" action="/api/admin/galeria" class="p-4 space-y-3">
+              <input type="hidden" name="_action" value="update" />
+              <input type="hidden" name="id" value={g.id} />
+              <div>
+                <label class="label">Descripción</label>
+                <input class="field" name="caption" value={g.caption} />
+              </div>
+              <div>
+                <label class="label">Orden</label>
+                <input class="field" name="orden" type="number" value={g.orden} />
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <button class="btn-gold" type="submit">Guardar</button>
+                <button
+                  type="submit"
+                  name="_action"
+                  value="delete"
+                  onclick="return confirm('¿Eliminar esta foto?')"
+                  class="rounded-full border border-wine/50 px-4 py-2 text-sm text-red-300 hover:bg-wine/20 transition-colors"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        ))
+      }
+    </div>
+    {galeria.length === 0 && <p class="text-muted">Aún no hay fotos en la galería.</p>}
+  </section>
+</AdminLayout>

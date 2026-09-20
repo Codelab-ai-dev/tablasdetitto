@@ -1,0 +1,147 @@
+---
+import '@fontsource/cormorant-garamond/600.css';
+import '@fontsource-variable/manrope';
+
+interface Props {
+  title: string;
+  active?: 'inicio' | 'tablas' | 'galeria' | 'contacto';
+  showNav?: boolean;
+}
+const { title, active, showNav = true } = Astro.props;
+
+const nav = [
+  { key: 'inicio', label: 'Inicio', href: '/admin' },
+  { key: 'tablas', label: 'Tablas', href: '/admin/tablas' },
+  { key: 'galeria', label: 'Galería', href: '/admin/galeria' },
+  { key: 'contacto', label: 'Contacto', href: '/admin/contacto' },
+];
+
+const params = Astro.url.searchParams;
+const ok = params.get('ok');
+const err = params.get('err');
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} · Admin — Las Tablas de Titto</title>
+  </head>
+  <body class="min-h-screen bg-charcoal text-cream font-body antialiased">
+    {
+      showNav && (
+        <header class="border-b border-gold/15 bg-ember/60 backdrop-blur">
+          <div class="mx-auto max-w-5xl px-4 sm:px-6 flex items-center justify-between h-16">
+            <a href="/admin" class="flex items-center gap-2">
+              <img src="/logo.png" alt="" class="h-9 w-9 rounded-full bg-[#fbf6f0] object-contain p-0.5" />
+              <span class="font-display text-lg text-cream">Admin</span>
+            </a>
+            <nav class="hidden sm:flex items-center gap-1">
+              {nav.map((item) => (
+                <a
+                  href={item.href}
+                  class:list={[
+                    'px-3 py-2 rounded-lg text-sm transition-colors',
+                    active === item.key
+                      ? 'bg-gold/15 text-gold-light'
+                      : 'text-muted hover:text-cream hover:bg-white/5',
+                  ]}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+            <div class="flex items-center gap-2">
+              <a
+                href="/"
+                target="_blank"
+                class="hidden sm:inline text-xs text-muted hover:text-cream"
+                >Ver sitio ↗</a
+              >
+              <form method="POST" action="/api/admin/logout">
+                <button
+                  class="rounded-lg border border-cream/20 px-3 py-1.5 text-sm text-cream hover:border-wine hover:text-wine transition-colors"
+                  >Salir</button
+                >
+              </form>
+            </div>
+          </div>
+          <!-- nav móvil -->
+          <nav class="sm:hidden flex overflow-x-auto gap-1 px-4 pb-3">
+            {nav.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  'whitespace-nowrap px-3 py-1.5 rounded-lg text-sm',
+                  active === item.key ? 'bg-gold/15 text-gold-light' : 'text-muted',
+                ]}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </header>
+      )
+    }
+
+    <main class="mx-auto max-w-5xl px-4 sm:px-6 py-8">
+      {
+        ok && (
+          <div class="mb-6 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-300">
+            {ok}
+          </div>
+        )
+      }
+      {
+        err && (
+          <div class="mb-6 rounded-lg border border-wine/50 bg-wine/15 px-4 py-3 text-sm text-red-300">
+            {err}
+          </div>
+        )
+      }
+      <slot />
+    </main>
+
+    <style is:global>
+      .field {
+        display: block;
+        width: 100%;
+        border-radius: 0.6rem;
+        border: 1px solid rgba(243, 233, 216, 0.15);
+        background: #211917;
+        color: #f3e9d8;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.95rem;
+      }
+      .field:focus {
+        outline: none;
+        border-color: #c9a24b;
+      }
+      .label {
+        display: block;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #a2907a;
+        margin-bottom: 0.35rem;
+      }
+      .btn-gold {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        border-radius: 9999px;
+        background: #c9a24b;
+        color: #0f0b0a;
+        font-weight: 600;
+        padding: 0.6rem 1.4rem;
+        transition: background 0.2s;
+      }
+      .btn-gold:hover {
+        background: #e6c877;
+      }
+    </style>
+  </body>
+</html>

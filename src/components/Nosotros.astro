@@ -1,4 +1,7 @@
 ---
+import { getSetting } from '../lib/content';
+
+const nosotrosImage = getSetting('nosotros_image', '/images/tabla-3.jpg');
 ---
 
 <section id="nosotros" class="relative py-24 md:py-32">
@@ -41,7 +44,7 @@
         <div class="relative">
           <div class="absolute -inset-4 rounded-3xl bg-wine/10 blur-2xl"></div>
           <img
-            src="/images/tabla-3.jpg"
+            src={nosotrosImage}
             alt="Tabla de charcutería para maridar con vino"
             loading="lazy"
             decoding="async"

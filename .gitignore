@@ -12,3 +12,5 @@ npm-debug.log*
 .DS_Store
 # astro
 .astro/
+# datos locales (BD SQLite + imágenes subidas)
+data/

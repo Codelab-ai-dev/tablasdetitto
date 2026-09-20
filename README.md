@@ -1,32 +1,42 @@
-# Las Tablas de Titto — Landing
+# Las Tablas de Titto — Landing + Admin
 
-Landing page de charcutería artesanal. **Astro + Tailwind CSS**, mobile-first, estática y ultra rápida.
+Landing page de charcutería artesanal con **panel de administración**.
+**Astro (SSR) + Tailwind CSS + SQLite**, mobile-first.
 
-## 🚀 Cómo correrla
+## 🚀 Cómo correrla en local
 
 ```bash
 cd las-tablas-de-titto
 npm install
-npm run dev        # http://localhost:4321
+# credenciales del admin para local (elige las tuyas):
+ADMIN_USER=titto ADMIN_PASSWORD=secret123 npm run dev
+# http://localhost:4321   → sitio público
+# http://localhost:4321/admin → panel
 ```
 
-Otros comandos:
+Build de producción:
 
 ```bash
-npm run build      # genera el sitio en dist/
-npm run preview    # previsualiza el build
+npm run build              # compila el servidor SSR en dist/
+npm run serve              # corre el servidor: node ./dist/server/entry.mjs
 ```
 
-## ✏️ Qué editar (sin tocar diseño)
+Los datos (BD SQLite + imágenes subidas) se guardan en `./data/` en local
+(`DATA_DIR` para cambiar la ruta).
 
-Todo el contenido editable vive en **`src/config.ts`**:
+## 🔐 Panel de administración `/admin`
 
-| Quiero cambiar… | Dónde |
-|---|---|
-| Número de WhatsApp | `contacto.whatsapp` (formato `5215500000000`, sin `+`) |
-| Instagram / correo / zona | `contacto` y `site` |
-| Tablas, precios y descripciones | `tablas` |
-| Textos de la galería | `galeria` |
+Inicia sesión con `ADMIN_USER` / `ADMIN_PASSWORD` y podrás editar, con cambios
+**al instante**:
+
+- **Tablas** del menú (agregar, editar, eliminar, destacada, orden)
+- **Galería** (subir/eliminar fotos, captions) y las **imágenes del hero y nosotros**
+- **Contacto**: WhatsApp, Instagram, correo y zona de servicio
+
+El contenido vive en la base de datos. `src/config.ts` solo se usa como **valores
+semilla** la primera vez que arranca (para que la página se vea igual que antes).
+
+Para **cambiar la contraseña**: cambia la variable `ADMIN_PASSWORD` y vuelve a desplegar.
 
 > Los datos de contacto son **placeholders**. Reemplázalos por los reales antes de publicar.
 
@@ -52,3 +62,22 @@ reemplaza el bloque de texto del logo por:
 
 - Colores en `tailwind.config.mjs` (`charcoal`, `gold`, `wine`, `cream`, …).
 - Tipografías: **Cormorant Garamond** (títulos) + **Manrope** (cuerpo), cargadas localmente vía `@fontsource` (sin depender de CDNs).
+
+## ☁️ Despliegue en Coolify (importante)
+
+El sitio ya **no es estático**: corre como servidor Node (Docker) con base de datos.
+En Coolify, en tu aplicación:
+
+1. **Build Pack:** Dockerfile (raíz del repo).
+2. **Puerto expuesto:** `4321`.
+3. **Volumen persistente:** monta `/app/data`
+   *(ahí viven la BD SQLite y las imágenes subidas — sin el volumen se pierden en cada redeploy).*
+4. **Variables de entorno:**
+   - `ADMIN_USER` = tu usuario
+   - `ADMIN_PASSWORD` = tu contraseña
+   - `SESSION_SECRET` = una cadena larga aleatoria
+   - `HOST` = `0.0.0.0`
+   - `DATA_DIR` = `/app/data`
+5. **Redeploy.**
+
+Ver `.env.example` para la lista de variables.

@@ -1,0 +1,36 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getContacto } from '../../lib/content';
+
+const c = getContacto();
+---
+
+<AdminLayout title="Contacto" active="contacto">
+  <h1 class="font-display text-4xl text-cream">Datos de contacto</h1>
+  <p class="mt-2 text-muted">Estos datos alimentan todos los botones de WhatsApp, el Instagram, el correo y la zona.</p>
+
+  <form method="POST" action="/api/admin/contacto" class="mt-8 max-w-xl space-y-5">
+    <div>
+      <label class="label">WhatsApp (con código de país, sin +)</label>
+      <input class="field" name="whatsapp" value={c.whatsapp} placeholder="523314573719" required />
+      <p class="mt-1 text-xs text-muted">Ej: 52 (México) + 10 dígitos → <code>523314573719</code></p>
+    </div>
+    <div>
+      <label class="label">Instagram (usuario, sin @)</label>
+      <input class="field" name="instagram" value={c.instagram} placeholder="LasTablasdeTitto" />
+    </div>
+    <div>
+      <label class="label">URL de Instagram</label>
+      <input class="field" name="instagram_url" value={c.instagramUrl} placeholder="https://instagram.com/LasTablasdeTitto" />
+    </div>
+    <div>
+      <label class="label">Correo</label>
+      <input class="field" type="email" name="email" value={c.email} placeholder="hola@lastablasdetitto.com" />
+    </div>
+    <div>
+      <label class="label">Zona de servicio</label>
+      <input class="field" name="zona" value={c.zona} placeholder="Guadalajara y Zona Metropolitana, Jalisco" />
+    </div>
+    <button class="btn-gold" type="submit">Guardar cambios</button>
+  </form>
+</AdminLayout>

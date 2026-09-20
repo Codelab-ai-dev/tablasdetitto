@@ -1,0 +1,107 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getTablas } from '../../lib/content';
+
+const tablas = getTablas();
+---
+
+<AdminLayout title="Tablas" active="tablas">
+  <div class="flex items-center justify-between">
+    <h1 class="font-display text-4xl text-cream">Tablas del menú</h1>
+  </div>
+
+  <!-- Lista de tablas existentes -->
+  <div class="mt-8 space-y-4">
+    {
+      tablas.map((t) => (
+        <form
+          method="POST"
+          action="/api/admin/tablas"
+          class="rounded-2xl bg-surface/60 ring-1 ring-cream/10 p-5"
+        >
+          <input type="hidden" name="_action" value="update" />
+          <input type="hidden" name="id" value={t.id} />
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label class="label">Nombre</label>
+              <input class="field" name="nombre" value={t.nombre} required />
+            </div>
+            <div>
+              <label class="label">Porciones</label>
+              <input class="field" name="porciones" value={t.porciones} />
+            </div>
+            <div>
+              <label class="label">Precio</label>
+              <input class="field" name="precio" value={t.precio} />
+            </div>
+            <div>
+              <label class="label">Orden</label>
+              <input class="field" name="orden" type="number" value={t.orden} />
+            </div>
+            <div class="sm:col-span-2">
+              <label class="label">Descripción</label>
+              <textarea class="field" name="descripcion" rows="2">{t.descripcion}</textarea>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <label class="flex items-center gap-2 text-sm text-muted">
+              <input type="checkbox" name="destacada" value="1" checked={t.destacada === 1} />
+              Marcar como destacada (“La favorita”)
+            </label>
+            <div class="flex items-center gap-2">
+              <button class="btn-gold" type="submit">Guardar</button>
+              <button
+                type="submit"
+                formaction="/api/admin/tablas"
+                name="_action"
+                value="delete"
+                onclick="return confirm('¿Eliminar esta tabla? Esta acción no se puede deshacer.')"
+                class="rounded-full border border-wine/50 px-4 py-2 text-sm text-red-300 hover:bg-wine/20 transition-colors"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </form>
+      ))
+    }
+    {tablas.length === 0 && <p class="text-muted">Aún no hay tablas. Agrega la primera abajo.</p>}
+  </div>
+
+  <!-- Crear nueva tabla -->
+  <div class="mt-10 rounded-2xl border border-dashed border-gold/30 p-5">
+    <h2 class="font-display text-2xl text-gold-light">Agregar nueva tabla</h2>
+    <form method="POST" action="/api/admin/tablas" class="mt-4">
+      <input type="hidden" name="_action" value="create" />
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label class="label">Nombre</label>
+          <input class="field" name="nombre" placeholder="Tabla Clásica" required />
+        </div>
+        <div>
+          <label class="label">Porciones</label>
+          <input class="field" name="porciones" placeholder="2 – 3 personas" />
+        </div>
+        <div>
+          <label class="label">Precio</label>
+          <input class="field" name="precio" placeholder="$549" />
+        </div>
+        <div>
+          <label class="label">Orden</label>
+          <input class="field" name="orden" type="number" value={tablas.length} />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="label">Descripción</label>
+          <textarea class="field" name="descripcion" rows="2" placeholder="Describe la tabla..."></textarea>
+        </div>
+      </div>
+      <div class="mt-4 flex items-center justify-between gap-3">
+        <label class="flex items-center gap-2 text-sm text-muted">
+          <input type="checkbox" name="destacada" value="1" />
+          Marcar como destacada
+        </label>
+        <button class="btn-gold" type="submit">Agregar tabla</button>
+      </div>
+    </form>
+  </div>
+</AdminLayout>

@@ -1,5 +1,8 @@
 ---
-import { site, contacto, waLink } from '../config';
+import { site } from '../config';
+import { getContacto, waLink } from '../lib/content';
+
+const contacto = getContacto();
 ---
 
 <footer id="contacto" class="relative pt-24 md:pt-32 pb-10 overflow-hidden">
@@ -67,7 +70,7 @@ import { site, contacto, waLink } from '../config';
 
       <div>
         <h4 class="text-xs uppercase tracking-wider text-gold mb-4">Zona de servicio</h4>
-        <p class="text-sm text-muted leading-relaxed">{site.zona}</p>
+        <p class="text-sm text-muted leading-relaxed">{contacto.zona}</p>
         <p class="mt-3 text-sm text-muted">Pedidos con 24 h de anticipación.</p>
       </div>
     </div>

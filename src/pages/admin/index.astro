@@ -1,0 +1,51 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getTablas, getGaleria, getContacto } from '../../lib/content';
+
+const tablas = getTablas();
+const galeria = getGaleria();
+const contacto = getContacto();
+
+const cards = [
+  {
+    href: '/admin/tablas',
+    titulo: 'Tablas',
+    desc: 'Agrega, edita y elimina las tablas del menú.',
+    stat: `${tablas.length} tabla${tablas.length === 1 ? '' : 's'}`,
+  },
+  {
+    href: '/admin/galeria',
+    titulo: 'Galería e imágenes',
+    desc: 'Sube y organiza fotos; elige las del hero y nosotros.',
+    stat: `${galeria.length} foto${galeria.length === 1 ? '' : 's'}`,
+  },
+  {
+    href: '/admin/contacto',
+    titulo: 'Contacto',
+    desc: 'WhatsApp, Instagram, correo y zona de servicio.',
+    stat: contacto.whatsapp || 'Sin definir',
+  },
+];
+---
+
+<AdminLayout title="Inicio" active="inicio">
+  <h1 class="font-display text-4xl text-cream">Hola de nuevo 👋</h1>
+  <p class="mt-2 text-muted">¿Qué quieres editar hoy?</p>
+
+  <div class="mt-8 grid gap-4 sm:grid-cols-3">
+    {
+      cards.map((c) => (
+        <a
+          href={c.href}
+          class="group rounded-2xl bg-surface/60 ring-1 ring-cream/10 p-6 hover:ring-gold/40 transition-all hover:-translate-y-0.5"
+        >
+          <h2 class="font-display text-2xl text-cream group-hover:text-gold-light transition-colors">
+            {c.titulo}
+          </h2>
+          <p class="mt-2 text-sm text-muted">{c.desc}</p>
+          <p class="mt-4 text-xs uppercase tracking-wider text-gold/80">{c.stat}</p>
+        </a>
+      ))
+    }
+  </div>
+</AdminLayout>

@@ -1,5 +1,7 @@
 ---
-import { tablas, waLink } from '../config';
+import { getTablas, waLink } from '../lib/content';
+
+const tablas = getTablas();
 ---
 
 <section id="tablas" class="relative py-24 md:py-32">
@@ -29,7 +31,7 @@ import { tablas, waLink } from '../config';
             ]}
             style={`transition-delay:${i * 90}ms`}
           >
-            {tabla.destacada && (
+            {tabla.destacada === 1 && (
               <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold px-4 py-1 text-[0.65rem] font-semibold uppercase tracking-widest text-charcoal">
                 La favorita
               </span>

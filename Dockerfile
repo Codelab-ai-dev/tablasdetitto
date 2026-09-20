@@ -1,28 +1,37 @@
-# ---- Etapa 1: build del sitio estático ----
-FROM node:20-alpine AS build
+# ---- Etapa 1: build ----
+FROM node:20-slim AS build
 WORKDIR /app
 
-# Instala dependencias con caché eficiente
+# Dependencias del sistema para compilar better-sqlite3 (módulo nativo)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 make g++ \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY package.json package-lock.json ./
 RUN npm ci
 
-# Copia el resto y genera dist/
 COPY . .
 RUN npm run build
 
-# ---- Etapa 2: servir con nginx ----
-FROM nginx:1.27-alpine AS runtime
+# ---- Etapa 2: runtime ----
+FROM node:20-slim AS runtime
+WORKDIR /app
+ENV NODE_ENV=production
+ENV HOST=0.0.0.0
+ENV PORT=4321
+ENV DATA_DIR=/app/data
 
-# Config de nginx para sitio estático
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copia el servidor compilado y las dependencias (incluye el binario nativo de sqlite)
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./package.json
 
-# Copia el sitio compilado
-COPY --from=build /app/dist /usr/share/nginx/html
+# Directorio de datos persistente (montar como volumen en Coolify)
+RUN mkdir -p /app/data/uploads
 
-EXPOSE 80
+EXPOSE 4321
 
-# Healthcheck simple para que Coolify sepa que el contenedor está sano
 HEALTHCHECK --interval=15s --timeout=3s --start-period=10s --retries=3 \
-  CMD wget -qO- http://127.0.0.1/ >/dev/null 2>&1 || exit 1
+  CMD node -e "fetch('http://127.0.0.1:4321/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "./dist/server/entry.mjs"]
