@@ -8,6 +8,7 @@ export interface Tabla {
   descripcion: string;
   destacada: number;
   orden: number;
+  imagen: string;
 }
 
 export interface GaleriaItem {

@@ -26,7 +26,8 @@ db.exec(`
     precio TEXT NOT NULL DEFAULT '',
     descripcion TEXT NOT NULL DEFAULT '',
     destacada INTEGER NOT NULL DEFAULT 0,
-    orden INTEGER NOT NULL DEFAULT 0
+    orden INTEGER NOT NULL DEFAULT 0,
+    imagen TEXT NOT NULL DEFAULT ''
   );
 
   CREATE TABLE IF NOT EXISTS galeria (
@@ -53,26 +54,32 @@ db.exec(`
   );
 `);
 
+migrate();
 seed();
 
+// Migraciones aditivas para bases de datos existentes.
+function migrate() {
+  const cols = db.prepare('PRAGMA table_info(tablas)').all() as { name: string }[];
+  if (!cols.some((c) => c.name === 'imagen')) {
+    db.exec("ALTER TABLE tablas ADD COLUMN imagen TEXT NOT NULL DEFAULT ''");
+  }
+}
+
 function seed() {
-  // Tablas
-  const tablasCount = (db.prepare('SELECT COUNT(*) AS c FROM tablas').get() as { c: number }).c;
-  if (tablasCount === 0) {
+  // Tablas y galería se siembran una sola vez; si el admin las vacía, no vuelven a aparecer.
+  seedOnce('tablas', () => {
     const ins = db.prepare(
       'INSERT INTO tablas (nombre, porciones, precio, descripcion, destacada, orden) VALUES (?,?,?,?,?,?)'
     );
     seedTablas.forEach((t, i) =>
       ins.run(t.nombre, t.porciones, t.precio, t.descripcion, t.destacada ? 1 : 0, i)
     );
-  }
+  });
 
-  // Galería
-  const galCount = (db.prepare('SELECT COUNT(*) AS c FROM galeria').get() as { c: number }).c;
-  if (galCount === 0) {
+  seedOnce('galeria', () => {
     const ins = db.prepare('INSERT INTO galeria (src, caption, orden) VALUES (?,?,?)');
     seedGaleria.forEach((g, i) => ins.run(g.src, g.caption, i));
-  }
+  });
 
   // Settings (solo si faltan, para no pisar ediciones)
   setDefault('whatsapp', seedContacto.whatsapp);
@@ -89,6 +96,16 @@ function seed() {
   const hash = bcrypt.hashSync(password, 10);
   db.prepare('DELETE FROM admin').run();
   db.prepare('INSERT INTO admin (username, password_hash) VALUES (?,?)').run(username, hash);
+}
+
+// Inserta los datos iniciales de `table` si nunca se sembró. Una BD previa que ya tiene filas
+// solo se marca como sembrada.
+function seedOnce(table: 'tablas' | 'galeria', insert: () => void) {
+  const flag = `seeded_${table}`;
+  if (db.prepare('SELECT 1 FROM settings WHERE key = ?').get(flag)) return;
+  const count = (db.prepare(`SELECT COUNT(*) AS c FROM ${table}`).get() as { c: number }).c;
+  if (count === 0) insert();
+  setDefault(flag, '1');
 }
 
 function setDefault(key: string, value: string) {

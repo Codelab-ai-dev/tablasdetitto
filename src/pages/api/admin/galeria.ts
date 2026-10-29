@@ -8,7 +8,8 @@ const back = (redirect: (url: string) => Response, msg: string, ok = true) =>
 
 export const POST: APIRoute = async ({ request, redirect }) => {
   const form = await request.formData();
-  const action = String(form.get('_action') || '');
+  // El botón pulsado va después del input oculto en el formulario, así que manda el último valor.
+  const action = String(form.getAll('_action').pop() || '');
 
   try {
     if (action === 'upload') {

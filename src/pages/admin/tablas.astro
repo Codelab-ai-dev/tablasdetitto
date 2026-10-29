@@ -17,6 +17,7 @@ const tablas = getTablas();
         <form
           method="POST"
           action="/api/admin/tablas"
+          enctype="multipart/form-data"
           class="rounded-2xl bg-surface/60 ring-1 ring-cream/10 p-5"
         >
           <input type="hidden" name="_action" value="update" />
@@ -41,6 +42,28 @@ const tablas = getTablas();
             <div class="sm:col-span-2">
               <label class="label">Descripción</label>
               <textarea class="field" name="descripcion" rows="2">{t.descripcion}</textarea>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="label">Imagen</label>
+              <div class="flex flex-wrap items-start gap-4">
+                {t.imagen ? (
+                  <img src={t.imagen} alt={t.nombre} class="h-28 w-40 rounded-lg object-cover ring-1 ring-cream/10" />
+                ) : (
+                  <div class="flex h-28 w-40 items-center justify-center rounded-lg border border-dashed border-cream/20 text-xs text-muted">
+                    Sin imagen
+                  </div>
+                )}
+                <div class="flex-1 min-w-[12rem] space-y-2">
+                  <input class="field" type="file" name="imagen" accept="image/jpeg,image/png,image/webp" />
+                  <p class="text-xs text-muted">JPG, PNG o WebP, máx 5 MB. Subir una nueva reemplaza la actual.</p>
+                  {t.imagen && (
+                    <label class="flex items-center gap-2 text-sm text-muted">
+                      <input type="checkbox" name="quitar_imagen" value="1" />
+                      Quitar imagen
+                    </label>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
           <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
@@ -71,7 +94,7 @@ const tablas = getTablas();
   <!-- Crear nueva tabla -->
   <div class="mt-10 rounded-2xl border border-dashed border-gold/30 p-5">
     <h2 class="font-display text-2xl text-gold-light">Agregar nueva tabla</h2>
-    <form method="POST" action="/api/admin/tablas" class="mt-4">
+    <form method="POST" action="/api/admin/tablas" enctype="multipart/form-data" class="mt-4">
       <input type="hidden" name="_action" value="create" />
       <div class="grid gap-4 sm:grid-cols-2">
         <div>
@@ -93,6 +116,10 @@ const tablas = getTablas();
         <div class="sm:col-span-2">
           <label class="label">Descripción</label>
           <textarea class="field" name="descripcion" rows="2" placeholder="Describe la tabla..."></textarea>
+        </div>
+        <div class="sm:col-span-2">
+          <label class="label">Imagen (opcional · JPG/PNG/WebP, máx 5 MB)</label>
+          <input class="field" type="file" name="imagen" accept="image/jpeg,image/png,image/webp" />
         </div>
       </div>
       <div class="mt-4 flex items-center justify-between gap-3">
